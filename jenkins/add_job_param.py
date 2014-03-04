@@ -78,6 +78,7 @@ def updateConfig(jobName, paramName, paramValue, description):
         sys.stderr.write("\n\n")
         sys.stderr.write(updatedConfigXml)
         exit(1)
+    print "Updated %s" % jobName
 
 def main():
     global user
