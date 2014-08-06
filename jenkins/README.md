@@ -7,4 +7,6 @@ Includes username support, for password protected systems.
 
 . clone_job.py - clone a jenkins job with a new name
 
-. 
+. add_job_param.py - add a parameter to a jenkins job
+
+
