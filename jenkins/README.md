@@ -9,4 +9,6 @@ Includes username support, for password protected systems.
 
 . add_job_param.py - add a parameter to a jenkins job
 
+. change_job_default_param.py - modify the default value for a parameter on a job
+
 
