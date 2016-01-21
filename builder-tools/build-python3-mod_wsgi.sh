@@ -1,13 +1,5 @@
 #!/bin/bash
 
-[vagrant@localhost mod_wsgi-4.4.21]$ rpm -ql mod_wsgi
-/etc/httpd/conf.modules.d/10-wsgi.conf
-/usr/lib64/httpd/modules/mod_wsgi.so
-/usr/share/doc/mod_wsgi-3.4
-/usr/share/doc/mod_wsgi-3.4/LICENCE
-/usr/share/doc/mod_wsgi-3.4/README
-
-
 die () { echo -e "$*" >&2; exit 1; }
 
 url='https://github.com/GrahamDumpleton/mod_wsgi/archive/4.4.21.tar.gz'
@@ -50,11 +42,14 @@ echo 'LoadModule wsgi_module modules/mod_wsgi.so' > "$modConfOutDir/10-wsgi.conf
 cp README.rst $shareOutDir
 cp LICENSE $shareOutDir
 
+
+#FIXME: add additional RPM params like license and url
 fpm \
   -C $prefixDir \
   -t rpm \
   -s dir \
   -n mod_wsgi3 \
+  --version $ver \
    .
   
 
