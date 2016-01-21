@@ -37,6 +37,8 @@ export CFLAGS="-fPIC"
 
 make || die
 
+cd $startPwd
+
 cp 'src/server/.libs/mod_wsgi.so' $modOutDir
 echo 'LoadModule wsgi_module modules/mod_wsgi.so' > "$modConfOutDir/10-wsgi.conf"
 cp README.rst $shareOutDir
