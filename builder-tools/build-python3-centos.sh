@@ -9,15 +9,16 @@ pyName=${tgzName/.tgz/}
 startPwd=$PWD
 md5='e80a0c1c71763ff6b5a81f8cc9bb3d50'
 
-yum -y groupinstall 'Development Tools'
+sudo yum -y groupinstall 'Development Tools' || die
 
-yum install -y sqlite-devel 
+sudo yum install -y sqlite-devel || die
 
 mkdir python-build python-prefix
 
 cd python-build || die
 
-wget $url || die
+[ -e "$tgzName" ] || ( wget $url || die )
+#FIXME: add check for MD5
 
 tar -zxf $(basename $url) || die
 
