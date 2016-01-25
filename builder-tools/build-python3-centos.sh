@@ -43,6 +43,7 @@ buildit () {
   ./configure --prefix=${startPwd}/python-prefix || die 
 
   make || die
+  cd $startPwd
 }
 
 
