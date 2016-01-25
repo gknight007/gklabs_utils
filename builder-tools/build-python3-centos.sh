@@ -62,11 +62,21 @@ mkRpm () {
 
 case "$1" in 
   rpm)
-   ;;
+    mkRpm
+  ;;
   build)
+    buildit
   ;;
   pkg)
+    getPkgs
+  ;;
+  all)
+    getPkgs
+    mkDirs
+    buildit
+    mkRpm
   ;;
   *)
+    echo "Usage: $0 <rpm>|<build>|<pkg>|<all>"
   ;;
 esac
