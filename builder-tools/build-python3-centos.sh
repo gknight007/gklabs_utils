@@ -47,6 +47,8 @@ fpm \
   --license Python \
   --vendor Python \
   --url 'http://www.python.org' \
+  --provides 'python(abi)' \
+  --provides 'python' \
   -x '*.pyc' \
   
 
