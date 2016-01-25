@@ -44,7 +44,7 @@ buildit () {
 
 
 mkRpm () {
-  fpm=#(which fpm)
+  fpm=$(which fpm)
   if [ -z "$fpm" ]; then
     [ -x "/usr/local/bin/fpm" ] || die "ERROR: Unable to find fpm"
     fpm=/usr/local/bin/fpm
