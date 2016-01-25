@@ -44,7 +44,14 @@ buildit () {
 
 
 mkRpm () {
-  fpm \
+  fpm=#(which fpm)
+  if [ -z "$fpm" ]; then
+    [ -x "/usr/local/bin/fpm" ] || die "ERROR: Unable to find fpm"
+    fpm=/usr/local/bin/fpm
+  fi
+
+
+  $fpm \
     -C $startPwd/python-prefix \
     -t rpm \
     -s dir \
@@ -56,7 +63,7 @@ mkRpm () {
     --url 'http://www.python.org' \
     --provides 'python(abi)' \
     --provides 'python' \
-    -x '*.pyc' \
+    -x '*.pyc' 
 } 
 
 
