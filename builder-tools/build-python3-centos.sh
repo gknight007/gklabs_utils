@@ -91,6 +91,7 @@ case "$1" in
     getPkgs
     mkDirs
     buildit
+    doInstall
     mkRpm
   ;;
   *)
