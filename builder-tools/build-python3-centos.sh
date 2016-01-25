@@ -10,6 +10,7 @@ startPwd=$PWD
 md5='e80a0c1c71763ff6b5a81f8cc9bb3d50'
 reqPkgList='sqlite-devel openssl-devel rubygems ruby-devel rpm-build'
 pyVer=$(basename $(dirname $url))
+rpmPrefix='/opt/gk-labs'
 
 
 getPkgs () {
@@ -31,6 +32,8 @@ buildit () {
 
   [ -e "$tgzName" ] || ( wget $url || die )
   #FIXME: add check for MD5
+  tgzMd5=$(md5sum "$tgzName"  | cut -d' ' -f1)
+  [ "$tgzMd5" == "$md5" ] || die "ERROR: MD5 mismatch for $url"
 
   tar -zxf $(basename $url) || die
 
@@ -55,7 +58,7 @@ mkRpm () {
     -C $startPwd/python-prefix \
     -t rpm \
     -s dir \
-    --prefix /usr \
+    --prefix $rpmPrefix \
     --name python3 \
     --version $pyVer \
     --license Python \
