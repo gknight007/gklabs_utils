@@ -87,6 +87,9 @@ case "$1" in
   pkg)
     getPkgs
   ;;
+  prefix_install)
+    doInstall
+  ;;
   all)
     getPkgs
     mkDirs
