@@ -46,6 +46,12 @@ buildit () {
   cd $startPwd
 }
 
+doInstall () {
+  goToSrcDir
+  make install || die
+  cd $startPwd
+}
+
 
 mkRpm () {
   fpm=$(which fpm)
