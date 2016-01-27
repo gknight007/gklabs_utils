@@ -18,6 +18,8 @@ py3=$(which python3)
 mkdir -p mod_wsgi-build mod_wsgi-prefix
 mkdir -p $modConfOutDir $modOutDir $shareOutDir
 
+sudo yum -y install httpd-devel
+
 cd mod_wsgi-build || die
 
 [ -e "$tgzName" ] || ( wget $url || die )
@@ -45,8 +47,13 @@ cp README.rst $shareOutDir
 cp LICENSE $shareOutDir
 
 
+fpm=$(which fpm)
+if [ -z "$fpm" ]; then
+  [ -x "/usr/local/bin/fpm" ] || die "ERROR: Unable to find fpm"
+  fpm=/usr/local/bin/fpm
+fi
 #FIXME: add additional RPM params like license and url
-fpm \
+$fpm \
   -C $prefixDir \
   -t rpm \
   -s dir \

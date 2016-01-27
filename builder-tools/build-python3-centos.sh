@@ -98,6 +98,6 @@ case "$1" in
     mkRpm
   ;;
   *)
-    echo "Usage: $0 <rpm>|<build>|<pkg>|<all>"
+    echo "Usage: $0 <rpm>|<build>|<pkg>|<prefix_install>|<all>"
   ;;
 esac
