@@ -3,6 +3,8 @@
 
 die () { echo -e "$*" >&2 ; exit 1; }
 
+[ -e /etc/centos-release ] || die "ERROR: Is this Centos?  /etc/centos-release is missing!"
+
 url="https://www.python.org/ftp/python/3.4.4/Python-3.4.4.tgz"
 tgzName=$(basename $url)
 pyName=${tgzName/.tgz/}
@@ -10,7 +12,8 @@ startPwd=$PWD
 md5='e80a0c1c71763ff6b5a81f8cc9bb3d50'
 reqPkgList='sqlite-devel openssl-devel rubygems ruby-devel rpm-build'
 pyVer=$(basename $(dirname $url))
-rpmPrefix='/opt/gk-labs'
+rpmPrefix='/opt/python3'
+centOsMajorVer=$(cat /etc/centos-release | cut -d ' ' -f4 | cut -d\. -f1)
 
 
 getPkgs () {
@@ -40,7 +43,7 @@ buildit () {
   cd $pyName || die
 
   export CFLAGS='-fPIC'
-  ./configure --prefix=${startPwd}/python-prefix || die 
+  ./configure --prefix=${rpmPrefix} || die 
 
   make || die
   cd $startPwd
@@ -61,11 +64,11 @@ mkRpm () {
   fi
 
 
+    #-C $startPwd/python-prefix \
+    #--prefix $rpmPrefix \
   $fpm \
-    -C $startPwd/python-prefix \
     -t rpm \
     -s dir \
-    --prefix $rpmPrefix \
     --name python3 \
     --version $pyVer \
     --license Python \
@@ -73,7 +76,8 @@ mkRpm () {
     --url 'http://www.python.org' \
     --provides 'python(abi)' \
     --provides 'python' \
-    -x '*.pyc' 
+    -x '*.pyc' \
+    $rpmPrefix
 } 
 
 
