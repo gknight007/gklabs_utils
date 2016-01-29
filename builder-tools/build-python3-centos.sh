@@ -51,7 +51,7 @@ buildit () {
 
 doInstall () {
   goToSrcDir
-  make install || die
+  sudo make install || die
   cd $startPwd
 }
 
