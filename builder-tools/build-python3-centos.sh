@@ -12,6 +12,7 @@ startPwd=$PWD
 md5='e80a0c1c71763ff6b5a81f8cc9bb3d50'
 reqPkgList='sqlite-devel openssl-devel rubygems ruby-devel rpm-build'
 pyVer=$(basename $(dirname $url))
+pyShortVer=$(echo -n $pyVer | cut -d. -f1,2)
 rpmPrefix='/opt/python3'
 centOsMajorVer=$(cat /etc/centos-release | cut -d ' ' -f4 | cut -d\. -f1)
 iterationNumber=1
@@ -99,14 +100,14 @@ pkgPython () {
     ${pyBinDir}/pydoc* \
     ${pyBinDir}/python3* \
     ${pyBinDir}/pip3 \
-    ${pyBinDir}/pyvenv-$pyVer \
+    ${pyBinDir}/pyvenv-$pyShortVer \
     ${pyBinDir}/pyvenv \
-    ${pyBinDir}/easy_install-$pyVer \
-    ${pyManDir}/*/* \
+    ${pyBinDir}/easy_install-$pyShortVer \
+    ${pyManDir}/*/* 
 }
 
 
-pyLibDir="${rpmPrefix}/lib/python${pyVer}"
+pyLibDir="${rpmPrefix}/lib/python${pyShortVer}"
 pyDynLoadDir="${pyLibDir}/lib-dynload"
 
 pkgPyLibs () {
@@ -125,7 +126,7 @@ pkgPyLibs () {
     ${pyDynLoadDir}/*.so \
     ${pyLibDir}/*.py* \
     ${pyLibDir}/*/*.py* \
-    ${pyLibDir}/*/*/*.py* \
+    ${pyLibDir}/*/*/*.py* 
 }
 
 
@@ -141,7 +142,7 @@ pkgPyDevel () {
     --url 'http://www.python.org' \
     --provides 'python-libs' \
     --provides 'python' \
-    ${rpmPrefix}/include/python3*/* \
+    ${rpmPrefix}/include/python3*/* 
 }
 
 
