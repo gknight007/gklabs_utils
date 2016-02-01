@@ -14,7 +14,7 @@ reqPkgList='sqlite-devel openssl-devel rubygems ruby-devel rpm-build'
 pyVer=$(basename $(dirname $url))
 rpmPrefix='/opt/python3'
 centOsMajorVer=$(cat /etc/centos-release | cut -d ' ' -f4 | cut -d\. -f1)
-
+iterationNumber=1
 
 getPkgs () {
   sudo yum -y groupinstall 'Development Tools' || die
@@ -22,7 +22,7 @@ getPkgs () {
   sudo gem install fpm || die
 }
 
-mkDirs () {  mkdir python-build python-prefix ; }
+mkDirs () {  mkdir python-build ; }
 
 goToSrcDir () {
   cd python-build || die
@@ -71,6 +71,7 @@ mkRpm () {
     -s dir \
     --name python3 \
     --version $pyVer \
+    --iteration "${iterationNumber}.el${centOsMajorVer}" \
     --license Python \
     --vendor Python \
     --url 'http://www.python.org' \
@@ -79,6 +80,70 @@ mkRpm () {
     -x '*.pyc' \
     $rpmPrefix
 } 
+
+pyBinDir="${rpmPrefix}/bin"
+pyManDir="${rpmPrefix}/share/man"
+
+pkgPython () {
+  $fpm \
+    -t rpm \
+    -s dir \
+    --name python3 \
+    --version $pyVer \
+    --iteration "${iterationNumber}.el${centOsMajorVer}" \
+    --license Python \
+    --vendor Python \
+    --url 'http://www.python.org' \
+    --provides 'python(abi)' \
+    --provides 'python' \
+    ${pyBinDir}/pydoc* \
+    ${pyBinDir}/python3* \
+    ${pyBinDir}/pip3 \
+    ${pyBinDir}/pyvenv-$pyVer \
+    ${pyBinDir}/pyvenv \
+    ${pyBinDir}/easy_install-$pyVer \
+    ${pyManDir}/*/* \
+}
+
+
+pyLibDir="${rpmPrefix}/lib/python${pyVer}"
+pyDynLoadDir="${pyLibDir}/lib-dynload"
+
+pkgPyLibs () {
+  $fpm \
+    -t rpm \
+    -s dir \
+    --name python3-libs \
+    --version $pyVer \
+    --iteration "${iterationNumber}.el${centOsMajorVer}" \
+    --license Python \
+    --vendor Python \
+    --url 'http://www.python.org' \
+    --provides 'python-libs' \
+    --provides 'python' \
+    ${pyLibDir} \
+    ${pyDynLoadDir}/*.so \
+    ${pyLibDir}/*.py* \
+    ${pyLibDir}/*/*.py* \
+    ${pyLibDir}/*/*/*.py* \
+}
+
+
+pkgPyDevel () {
+  $fpm \
+    -t rpm \
+    -s dir \
+    --name python3-devel \
+    --version $pyVer \
+    --iteration "${iterationNumber}.el${centOsMajorVer}" \
+    --license Python \
+    --vendor Python \
+    --url 'http://www.python.org' \
+    --provides 'python-libs' \
+    --provides 'python' \
+    ${rpmPrefix}/include/python3*/* \
+}
+
 
 
 case "$1" in 
