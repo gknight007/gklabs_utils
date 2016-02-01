@@ -70,7 +70,7 @@ mkRpm () {
   $fpm \
     -t rpm \
     -s dir \
-    --name python3 \
+    --name big-python3 \
     --version $pyVer \
     --iteration "${iterationNumber}.el${centOsMajorVer}" \
     --license Python \
@@ -150,6 +150,9 @@ pkgPyDevel () {
 case "$1" in 
   rpm)
     mkRpm
+    pkgPython
+    pkgPyLibs
+    pkgPyDevel
   ;;
   build)
     buildit
@@ -166,6 +169,9 @@ case "$1" in
     buildit
     doInstall
     mkRpm
+    pkgPython
+    pkgPyLibs
+    pkgPyDevel
   ;;
   *)
     echo "Usage: $0 <rpm>|<build>|<pkg>|<prefix_install>|<all>"
