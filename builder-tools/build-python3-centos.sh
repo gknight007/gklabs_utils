@@ -122,6 +122,10 @@ pkgPyLibs () {
     --url 'http://www.python.org' \
     --provides 'python-libs' \
     --provides 'python' \
+    --exclude ${pyLibDir}/test \
+    --exclude ${pyLibDir}/ctypes/test \
+    --exclude ${pyLibDir}/distutils/test \
+    --exclude ${pyLibDir}/tkinter/test \
     ${pyLibDir} \
     ${pyDynLoadDir}/*.so \
     ${pyLibDir}/*.py* \
