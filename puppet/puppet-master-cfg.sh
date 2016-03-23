@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-cat <<EOF
+cat > $4 <<EOF
 [master]
 vardir = /opt/puppetlabs/server/data/puppetserver
 logdir = /var/log/puppetlabs/puppetserver
